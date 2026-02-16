@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dunia 乂 Digital - Top Up</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:sans-serif;
+  overflow-x:hidden;
+  color:white;
+  background:#000;
+}
+
+/* CANVAS POLYGON */
+#bgCanvas, #stars{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+}
+
+/* CANVAS BINTANG */
+#stars{
+  z-index:-1;
+}
+
+/* HEADER */
+.main-wrapper{
+  display:flex;
+  justify-content:center;
+  padding-top:6rem;
+  padding-bottom:6rem;
+}
+.container{
+  max-width:1100px;
+  width:100%;
+  padding:0 1rem;
+  text-align:center;
+}
+.judul-rgb-glow{
+ background:linear-gradient(90deg,#ff2d2d,#4dc9ff,#fff84d,#ffffff,#ff2d2d);
+ background-size:500%;
+ -webkit-background-clip:text;
+ color:transparent;
+ animation:rgbflow 4s linear infinite;
+ text-shadow:0 0 15px rgba(255,255,255,0.8);
+}
+@keyframes rgbflow{
+ 0%{background-position:0% 50%}
+ 100%{background-position:400% 50%}
+}
+
+/* SLIDER */
+#slider{
+  display:flex;
+  transition:transform 0.5s;
+}
+.slider-item{
+  min-width:100%;
+  padding:1.5rem;
+  border-radius:1rem;
+  color:white;
+  text-align:center;
+}
+
+/* GRID PRODUK & KATEGORI */
+#productGrid, .grid-categories{
+  display:grid;
+  gap:1rem;
+  justify-items:center;
+}
+#productGrid{
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+}
+.grid-categories{
+  grid-template-columns:repeat(4,1fr);
+}
+
+/* SIDEBAR */
+#menuToggle{
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:999;
+  width:45px;
+  height:45px;
+  background:#111;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.5);
+  font-size:24px;
+}
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-250px;
+  width:250px;
+  height:100%;
+  background:#111;
+  z-index:998;
+  padding:20px;
+  transition:left 0.3s ease;
+  overflow-y:auto;
+}
+#sidebar h2{color:white;margin-bottom:15px;}
+.side-cat{
+  margin-bottom:10px;
+  color:white;
+  cursor:pointer;
+}
+
+/* WA BUTTON */
+#waBtn{
+ position:fixed;
+ bottom:20px;
+ left:20px;
+ width:60px;
+ height:60px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:999;
+ cursor:pointer;
+}
+.wa-logo{
+  width:100%;
+  height:100%;
+  animation: floatUpDown 2s ease-in-out infinite;
+}
+@keyframes floatUpDown{
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* HOVER EFFECT KATEGORI */
+.cat-btn img{
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.cat-btn img:hover{
+  transform: scale(1.2);
+  box-shadow:0 0 20px #00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div id="menuToggle">☰</div>
+<div id="sidebar">
+  <h2>Kategori</h2>
+  <div class="side-cat" data-cat="ff">Free Fire</div>
+  <div class="side-cat" data-cat="ml">MLBB</div>
+  <div class="side-cat" data-cat="roblox">Roblox</div>
+  <div class="side-cat" data-cat="gopay">Gopay</div>
+  <div class="side-cat" data-cat="dana">Dana</div>
+  <div class="side-cat" data-cat="ovo">OVO</div>
+  <div class="side-cat" data-cat="pulsa">Pulsa</div>
+  <div class="side-cat" data-cat="listrik">Token PLN</div>
+</div>
+
+<!-- CANVAS POLYGON & BINTANG -->
+<canvas id="bgCanvas"></canvas>
+<canvas id="stars"></canvas>
+
+<!-- WA BUTTON -->
+<a id="waBtn" href="https://wa.me/6289654726537" target="_blank">
+  <img src="https://n.uguu.se/qnNmJMzd.jpg" alt="CS" class="wa-logo">
+</a>
+
+<!-- WRAPPER UTAMA -->
+<section class="main-wrapper">
+  <div class="container">
+    <h1 class="judul-rgb-glow text-4xl font-extrabold">
+      Dunia 乂 Digital
+    </h1>
+    <p class="text-gray-400 mt-2 text-lg">
+      Top Up Game, E-Wallet & PLN Termurah ⚡
+    </p>
+
+    <!-- SLIDER -->
+    <div class="mt-6 relative w-full overflow-hidden rounded-xl">
+      <div id="slider">
+        <div class="slider-item bg-gradient-to-r from-blue-600 to-blue-900">
+          <h2 class="text-xl font-bold">Promo Top Up Murah 🔥</h2>
+          <p class="text-sm mt-2">Diskon setiap hari untuk semua game</p>
+        </div>
+        <div class="slider-item bg-gradient-to-r from-red-600 to-red-900">
+          <h2 class="text-xl font-bold">Proses Cepat ⚡</h2>
+          <p class="text-sm mt-2">Transaksi otomatis & terpercaya</p>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="mt-1">
+     <h2 class="text-2xl font-bold mb-4">‎_________________________________</h2>
+      <div id="productGrid"></div>
+    </div>
+
+    <!-- KATEGORI -->
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-4">Kategori</h2>
+      <div class="grid-categories">
+
+        <div class="cat-btn cursor-pointer" data-cat="ff">
+          <img src="https://raw.githubusercontent.com/IkyyExecutive/IkyyBokep/main/uploads/1764181113096_30526_file_77.jpg" class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">Free Fire</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="ml">
+          <img src="https://raw.githubusercontent.com/IkyyExecutive/IkyyBokep/main/uploads/1771208294995_33506_1771208294886_file_1998.jpg" class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">MLBB</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="roblox">
+          <img src="https://n.uguu.se/BpWhbrhC.jpg" class="w-14 h-14 mx-auto rounded-full bg-white p-1">
+          <p class="mt-2 text-sm">Roblox</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="gopay">
+          <img src="https://n.uguu.se/OgljlKjP.jpg" class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">Gopay</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="dana">
+          <img src="https://n.uguu.se/WKjAKDxq.jpg " class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">Dana</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="ovo">
+          <img src="https://n.uguu.se/vJrpqGqm.jpg" class="w-14 h-14 mx-auto rounded-full bg-white p-1">
+          <p class="mt-2 text-sm">OVO</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="pulsa">
+          <img src="https://o.uguu.se/svFgkEDR.jpg" class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">Pulsa</p>
+        </div>
+
+        <div class="cat-btn cursor-pointer" data-cat="listrik">
+          <img src="https://d.uguu.se/PDmsVLoj.jpg" class="w-14 h-14 mx-auto rounded-full">
+          <p class="mt-2 text-sm">Token PLN</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* AUTO SLIDER */
+let index = 0;
+setInterval(() => {
+  index = (index + 1) % 2;
+  document.getElementById("slider").style.transform =
+    `translateX(-${index * 100}%)`;
+}, 3000);
+
+/* KLIK KATEGORI */
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const cat = btn.dataset.cat;
+    window.location.href = `${cat}.html`;
+  });
+});
+document.querySelectorAll(".side-cat").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const cat = btn.dataset.cat;
+    window.location.href = `${cat}.html`;
+  });
+});
+
+/* SIDEBAR MENU */
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+let sidebarOpen = false;
+menuToggle.addEventListener("click",()=>{
+  sidebarOpen = !sidebarOpen;
+  sidebar.style.left = sidebarOpen ? "0px" : "-250px";
+});
+
+/* BINTANG */
+const starsCanvas = document.getElementById("stars");
+const ctxStars = starsCanvas.getContext("2d");
+starsCanvas.width = window.innerWidth;
+starsCanvas.height = window.innerHeight;
+let stars=[];
+for(let i=0;i<120;i++){
+  stars.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2,speed:Math.random()*0.5+0.2,color:Math.random()>0.5?"white":"#3b82f6"});
+}
+function animateStars(){
+  ctxStars.clearRect(0,0,starsCanvas.width,starsCanvas.height);
+  stars.forEach(star=>{
+    ctxStars.beginPath();
+    ctxStars.arc(star.x,star.y,star.radius,0,Math.PI*2);
+    ctxStars.fillStyle=star.color;
+    ctxStars.shadowColor=star.color;
+    ctxStars.shadowBlur=8;
+    ctxStars.fill();
+    star.y+=star.speed;
+    if(star.y>window.innerHeight){
+      star.y=0; star.x=Math.random()*window.innerWidth;
+    }
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+/* POLYGON ANIMATED BACKGROUND */
+const polyCanvas=document.getElementById("bgCanvas");
+const ctxPoly=polyCanvas.getContext("2d");
+polyCanvas.width=window.innerWidth;
+polyCanvas.height=window.innerHeight;
+let polygons=[];
+for(let i=0;i<40;i++){
+  polygons.push({
+    x:Math.random()*polyCanvas.width,
+    y:Math.random()*polyCanvas.height,
+    size:Math.random()*100+50,
+    speedX:(Math.random()-0.5)*0.2,
+    speedY:(Math.random()-0.5)*0.2,
+    color:`rgba(0, 200, 255, 0.05)`
+  });
+}
+function animatePoly(){
+  ctxPoly.clearRect(0,0,polyCanvas.width,polyCanvas.height);
+  polygons.forEach(p=>{
+    ctxPoly.beginPath();
+    ctxPoly.moveTo(p.x,p.y);
+    ctxPoly.lineTo(p.x+p.size,p.y);
+    ctxPoly.lineTo(p.x+p.size/2,p.y-p.size/2);
+    ctxPoly.closePath();
+    ctxPoly.fillStyle=p.color;
+    ctxPoly.fill();
+    p.x+=p.speedX; p.y+=p.speedY;
+    if(p.x>polyCanvas.width)p.x=0; if(p.x<0)p.x=polyCanvas.width;
+    if(p.y>polyCanvas.height)p.y=0; if(p.y<0)p.y=polyCanvas.height;
+  });
+  requestAnimationFrame(animatePoly);
+}
+animatePoly();
+
+/* RESIZE */
+window.addEventListener("resize",()=>{
+  starsCanvas.width=window.innerWidth;
+  starsCanvas.height=window.innerHeight;
+  polyCanvas.width=window.innerWidth;
+  polyCanvas.height=window.innerHeight;
+});
+</script>
+</body>
+</html>

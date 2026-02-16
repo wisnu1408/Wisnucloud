@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembayaran Berhasil</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== BINTANG ===== */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite alternate;
+}
+
+.star.blue {
+  background: #4da6ff;
+  box-shadow: 0 0 6px #4da6ff;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; transform: translateY(0px); }
+  to { opacity: 1; transform: translateY(-15px); }
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* FLOAT */
+.float {
+  animation: floating 4s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* CHECK ANIMATION */
+.checkmark {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 4px solid #28a745;
+  position: relative;
+  animation: pop 0.4s ease forwards;
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 45px;
+  width: 25px;
+  height: 12px;
+  border-left: 4px solid #28a745;
+  border-bottom: 4px solid #28a745;
+  transform: rotate(-45deg);
+  animation: draw 0.4s 0.3s ease forwards;
+  opacity: 0;
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes draw {
+  to { opacity: 1; }
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #4da6ff;
+  color: white;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="card float">
+  <div class="checkmark"></div>
+  <h2 style="margin-top:20px;">Pembayaran Berhasil!</h2>
+  <p>Terima kasih, pembayaran kamu sedang diproses.</p>
+
+  <button onclick="kembali()">Kembali ke Beranda</button>
+</div>
+
+<script>
+/* BINTANG */
+const starsContainer = document.getElementById("stars");
+for (let i = 0; i < 120; i++) {
+  const star = document.createElement("div");
+  star.classList.add("star");
+  if (Math.random() > 0.5) star.classList.add("blue");
+  star.style.top = Math.random() * 100 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.animationDuration = (Math.random() * 3 + 2) + "s";
+  starsContainer.appendChild(star);
+}
+
+function kembali() {
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

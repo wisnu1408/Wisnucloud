@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Background bintang */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  animation: animateStars linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes animateStars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1000px); }
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  margin-top: 20px;
+  z-index: 1;
+  animation: floating 4s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+.btn {
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover { transform: scale(1.05); }
+
+.hidden { display: none; }
+
+.timer-box{
+  background:#fff3cd;
+  padding:10px;
+  border-radius:8px;
+  font-weight:bold;
+  margin-bottom:10px;
+  color:#856404;
+}
+</style>
+</head>
+<body>
+
+<!-- Bintang -->
+<div class="stars" id="stars"></div>
+
+<!-- FORM -->
+<div id="formDiv" class="card max-w-md mx-auto text-center">
+  <h2 class="text-xl font-bold mb-4">Pembayaran</h2>
+
+  <p id="productName" class="font-semibold"></p>
+  <p id="productPrice" class="font-semibold mb-3"></p>
+
+  <input id="username" placeholder="Masukkan Username" class="border p-2 w-full mb-2 rounded">
+  <input id="password" placeholder="Masukkan Password" class="border p-2 w-full mb-3 rounded">
+
+  <button class="btn w-full bg-blue-600 text-white py-2 rounded" id="payBtn">Bayar</button>
+</div>
+
+<!-- PAYMENT -->
+<div id="paymentDiv" class="card max-w-md mx-auto text-center hidden">
+
+  <p id="paymentProduct" class="font-semibold"></p>
+  <p id="paymentPrice" class="font-semibold mb-2"></p>
+
+  <div id="timerBox" class="timer-box hidden">
+    Selesaikan pembayaran dalam:
+    <span id="countdown">15:00</span>
+  </div>
+
+  <div id="qrisDiv" class="hidden">
+    <h2 class="font-bold mb-2">QRIS</h2>
+    <img id="qrisImg" 
+         src="https://smail.my.id/cloud/DphoIyQW1"
+         class="mx-auto w-full max-w-sm object-contain mb-3 rounded"/>
+
+    <button class="btn w-full bg-yellow-500 text-white py-2 rounded"
+            onclick="perjelasQRIS()">
+      Perjelas QRIS
+    </button>
+
+    <button class="btn w-full bg-red-600 text-white py-2 rounded"
+            onclick="batalPembayaran()">
+      Batal
+    </button>
+  </div>
+
+  <button class="btn w-full bg-green-600 text-white py-2 rounded" id="btnSelesai">
+    Selesai
+  </button>
+</div>
+
+<script>
+/* Generate bintang */
+const starsContainer = document.getElementById("stars");
+for (let i = 0; i < 120; i++) {
+  const star = document.createElement("span");
+  star.style.left = Math.random() * 100 + "vw";
+  star.style.top = Math.random() * 100 + "vh";
+  star.style.animationDuration = (30 + Math.random() * 50) + "s";
+  star.style.background = Math.random() > 0.5 ? "#ffffff" : "#6bbcff";
+  starsContainer.appendChild(star);
+}
+
+/* Ambil data dari URL */
+const urlParams = new URLSearchParams(window.location.search);
+const productName = decodeURIComponent(urlParams.get("paket") || "Robux 1000");
+const productPrice = parseInt(urlParams.get("harga")) || 20000;
+
+document.getElementById('productName').innerText = `PRODUK: ${productName}`;
+document.getElementById('productPrice').innerText = `NOMINAL: Rp ${productPrice.toLocaleString()}`;
+
+const paymentDiv = document.getElementById('paymentDiv');
+let timerInterval;
+
+/* Tombol Bayar */
+document.getElementById('payBtn').onclick = () => {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  if(!username || !password){ 
+    alert("Masukkan Username & Password!"); 
+    return; 
+  }
+
+  document.getElementById('formDiv').classList.add('hidden');
+  paymentDiv.classList.remove('hidden');
+
+  document.getElementById('paymentProduct').innerText = `PRODUK: ${productName}`;
+  document.getElementById('paymentPrice').innerText = `NOMINAL: Rp ${productPrice.toLocaleString()}`;
+
+  document.getElementById('qrisDiv').classList.remove('hidden');
+  document.getElementById('timerBox').classList.remove('hidden');
+
+  startTimer(15);
+};
+
+/* TIMER */
+function startTimer(minutes){
+  let time = minutes * 60;
+  const countdown = document.getElementById("countdown");
+
+  timerInterval = setInterval(() => {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+    countdown.innerText = 
+      `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+
+    time--;
+
+    if(time < 0){
+      clearInterval(timerInterval);
+      countdown.innerText = "WAKTU HABIS";
+      document.getElementById('btnSelesai').disabled = true;
+      document.getElementById('btnSelesai').classList.remove('bg-green-600');
+      document.getElementById('btnSelesai').classList.add('bg-gray-400');
+      alert("Waktu pembayaran habis!");
+    }
+  },1000);
+}
+
+/* Perjelas QRIS */
+function perjelasQRIS(){
+  const imgSrc = document.getElementById("qrisImg").src;
+  window.open(imgSrc, "_blank");
+}
+
+/* Batal */
+function batalPembayaran(){
+  if(confirm("Yakin ingin membatalkan pembayaran?")){
+    window.location.href = "index.html";
+  }
+}
+
+/* Tombol Selesai */
+document.getElementById('btnSelesai').onclick = () => {
+  window.location.href = "wa.html";
+};
+</script>
+
+</body>
+</html>

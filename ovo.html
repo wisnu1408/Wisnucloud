@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GOPAY - Produk | Dunia 乂 Digital</title>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  font-family:sans-serif;
+  color:white;
+  overflow-x:hidden;
+}
+
+.container{max-width:1100px;margin:20px auto;padding:16px;position:relative;z-index:2}
+.card{
+  background:#111;
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 0 15px rgba(0,150,255,.4);
+  transition:0.3s;
+}
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 25px rgba(0,150,255,.7);
+}
+.btn-beli{
+  background:#0d6efd;
+  color:white;
+  padding:8px;
+  border-radius:8px;
+  text-align:center;
+  display:block;
+}
+.grid-small{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.grid-small{grid-template-columns:repeat(3,1fr)}}
+
+/* ⭐ PARTIKEL */
+.stars{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  overflow:hidden;
+  z-index:1;
+}
+.star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:white;
+  border-radius:50%;
+  animation:move 10s linear infinite;
+}
+@keyframes move{
+  from{transform:translateY(0);}
+  to{transform:translateY(-1000px);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <a href="index.html">← Kembali</a>
+  <h1 class="text-2xl font-bold mb-4">OVO — Daftar Produk</h1>
+  <div id="productGrid" class="grid-small"></div>
+</div>
+
+<script>
+const products = [];
+for(let n=5000;n<=500000;n+=5000){
+  products.push({name:`OVO ${n.toLocaleString()}`, price: n + 024});
+}
+
+window.onload = () => {
+  const grid = document.getElementById('productGrid');
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <p class="font-bold">${p.name}</p>
+      <p>Rp ${p.price.toLocaleString()}</p>
+      <a class="btn-beli mt-2" href="payment.html?paket=${encodeURIComponent(p.name)}&harga=${encodeURIComponent(p.price)}">Beli</a>
+    `;
+    grid.appendChild(card);
+  });
+
+  // generate stars
+  const stars = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.background=Math.random()>0.5?'#00aaff':'white';
+    s.style.animationDuration=(5+Math.random()*10)+'s';
+    stars.appendChild(s);
+  }
+}
+</script>
+
+</body>
+</html>

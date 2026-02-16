@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konfirmasi WhatsApp</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-green-50 p-6 text-center">
+
+<div class="max-w-md mx-auto bg-white p-6 rounded-xl shadow">
+  <h2 class="text-xl font-bold mb-4">Konfirmasi Pembayaran</h2>
+
+  <p id="preview" class="text-left bg-gray-100 p-3 rounded mb-4 text-sm"></p>
+
+  <a id="waBtn" 
+     class="block w-full bg-green-600 text-white py-3 rounded font-bold">
+     konfirmasi ke admin pencet ini
+  </a>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const username = params.get("username");
+const password = params.get("password");
+const paket = params.get("paket");
+const harga = params.get("harga");
+const method = params.get("method");
+
+const nomorAdmin = "6285860605722"; // GANTI NOMOR LU
+
+const pesan = 
+`Halo Admin, saya sudah melakukan pembayaran.
+
+Produk: ${paket}
+Nominal: Rp ${Number(harga).toLocaleString()}
+Metode: ${method}
+
+Username: ${username}
+Password: ${password}
+
+Mohon diproses 🙏`;
+
+document.getElementById("preview").innerText = pesan;
+
+document.getElementById("waBtn").href =
+`https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesan)}`;
+</script>
+
+</body>
+</html>
